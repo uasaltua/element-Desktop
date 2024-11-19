@@ -66,7 +66,7 @@
   <div class="Post">
     <textarea maxlength="3400" style="height: 56px; width: 587px;" placeholder="Введите текст"></textarea>
     <div>
-      <button onclick="eel.new_post(document.querySelector('textarea').value)()" class="UI-Button comments">Отправить</button>
+      <button onclick="eel.new_post(document.querySelector('textarea').value)(function(){window.location.reload()})" class="UI-Button comments">Отправить</button>
     </div>
   </div>
 </div>
@@ -209,14 +209,6 @@ function load_music() {
 function load_posts() {
 var index = document.querySelectorAll('.Post').length - 1
 eel.load_posts(index)(function(posts) {
-  document.querySelector(".posts").innerHTML = `
-    <div class="Post">
-    <textarea maxlength="3400" style="height: 56px; width: 587px;" placeholder="Введите текст"></textarea>
-    <div>
-      <button onclick="eel.new_post(document.querySelector('textarea').value)()" class="UI-Button comments">Отправить</button>
-    </div>
-  </div>
-  `
   posts = JSON.parse(posts);
   console.log(posts)
 

@@ -29,12 +29,16 @@
 </div>
 
 <div id="musicPlayer" style="display: none; top: 130px;left: 60px;height: 70px;width: 500px;z-index: 10;position: fixed;background-color: rgb(25, 25, 25);border-radius: 10px;">
-  <audio></audio>
+  <audio id="0"></audio>
   <div style="display: flex; align-items: center; gap: 10px; border-radius: 5px;">
     <img src="noMusicCover.jpg" style="width: 50px; height: 50px; border-radius: 5px;margin-top: 10px;margin-left: 10px;margin-bottom: 12px;">
     <div style="display: flex; flex-direction: column; flex-grow: 1;">
-      <p style="margin: 0; font-size: 16px;">Название - Автор</p>
-      <input type="range" style="width: 95%; margin-top: 10px;height: 4px;" value="0" onchange="document.querySelector('audio').currentTime = this.value">
+      <p style="margin: 0; font-size: 16px;color: rgb(220, 220, 220);">Название - Автор</p>
+      <div>
+        <input type="range" style="width: 76%; margin-top: 10px;height: 4px;" value="0" onchange="document.querySelector('audio').currentTime = this.value">
+        <button onclick='if (document.querySelector("audio").paused) {document.querySelector("audio").play(); this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pause"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></svg>`} else {document.querySelector("audio").pause(); this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play"><polygon points="6 3 20 12 6 21 6 3"/></svg>`}' style="background-color: transparent;border: none;color: white;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pause"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></svg></button>
+        <button id="like" style="background-color: transparent;border: none;color: white;" onclick="if(this.querySelector('svg').getAttribute('fill') == 'none') {this.querySelector('svg').setAttribute('fill', 'white'); eel.like(document.querySelector('audio').id)()} else {this.querySelector('svg').setAttribute('fill', 'none'); eel.like(document.querySelector('audio').id)()}"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
+      </div>
     </div>
   </div>
 </div>
@@ -62,7 +66,7 @@
   <div class="Post">
     <textarea maxlength="3400" style="height: 56px; width: 587px;" placeholder="Введите текст"></textarea>
     <div>
-      <button onclick="eel.new_post(document.querySelector('textarea').value)(function() {window.location.reload()})" class="UI-Button comments">Отправить</button>
+      <button onclick="eel.new_post(document.querySelector('textarea').value)()" class="UI-Button comments">Отправить</button>
     </div>
   </div>
 </div>
@@ -174,6 +178,12 @@ function load_music() {
     document.querySelectorAll(".MusicItem").forEach(item => {
       item.addEventListener("click", function() {
         eel.load_song(item.id)(function(song){
+          document.querySelector("audio").id = item.id
+          if (song.Liked) {
+            document.querySelector("#like").querySelector('svg').setAttribute("fill", "white")
+          } else {
+            document.querySelector("#like").querySelector('svg').setAttribute("fill", "none")
+          }
           document.querySelector("audio").src = "https://elemsocial.com/Content/Music/Files/" + song.File
           var player = document.querySelector("#musicPlayer")
           player.querySelector("p").innerHTML = substr78(song.Title + " - " + song.Artist)
@@ -199,6 +209,14 @@ function load_music() {
 function load_posts() {
 var index = document.querySelectorAll('.Post').length - 1
 eel.load_posts(index)(function(posts) {
+  document.querySelector(".posts").innerHTML = `
+    <div class="Post">
+    <textarea maxlength="3400" style="height: 56px; width: 587px;" placeholder="Введите текст"></textarea>
+    <div>
+      <button onclick="eel.new_post(document.querySelector('textarea').value)()" class="UI-Button comments">Отправить</button>
+    </div>
+  </div>
+  `
   posts = JSON.parse(posts);
   console.log(posts)
 

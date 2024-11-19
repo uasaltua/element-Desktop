@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>element app</title>
+</head>
+<style>
+    body {
+        background: linear-gradient(to right, rgb(0, 0, 0), rgb(10, 10, 10));;
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+body {
+  overflow: auto;
+  scrollbar-width: none;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Глобальное */
+.UI-Block {
+  background-color: rgb(15, 15, 15);
+  border-radius: 10px;
+  max-width: 500px;
+  .UI-Title {
+    font-size: 21;
+    font-family: 'SF Pro Display Bold';
+  }
+}
+
+.window {
+  input {
+    border: none;
+    border-radius: 100px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    height: 50px;
+    min-width: 200px;
+    font-size: 18px;
+    background: linear-gradient(to right, rgb(50, 50, 50), rgb(50, 70, 70)); 
+    padding-left: 15px;
+    color: whitesmoke;
+    outline: none;
+  }
+  
+  select {
+    border: none;
+    border-radius: 100px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    height: 50px;
+    width: 240px;
+    font-size: 18px;
+    background: linear-gradient(to right, rgb(50, 50, 50), rgb(50, 70, 70)); 
+    padding-left: 15px;
+    padding-right: 15px;
+    color: whitesmoke;
+    outline: none;
+  }
+
+  option {
+    color: black;
+  }
+
+  button {
+    border: none;
+    margin-left: 5px;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    height: 40px;
+    width: 120px;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(30, 50, 50);
+    font-size: 16;
+  }
+}/* Шрифты */
+@font-face {
+  font-family: 'SF Pro Display Bold';
+  src: url('fonts/SF Pro Display Bold.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF Pro Display Medium';
+    src: url('fonts/SF Pro Display Medium.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Глобальное */
+body {
+    background: linear-gradient(to right, rgb(0, 0, 0), rgb(10, 10, 10));;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.UI-Block {
+  background-color: rgb(15, 15, 15);
+  border-radius: 10px;
+  max-width: 500px;
+  input {
+    border: none;
+    border-radius: 100px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    height: 50px;
+    min-width: 200px;
+    font-size: 16px;
+    background: linear-gradient(to right, rgb(50, 50, 50), rgb(50, 70, 70)); 
+    padding-left: 15px;
+    color: whitesmoke;
+    outline: none;
+  }
+  
+  select {
+    border: none;
+    border-radius: 100px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    height: 50px;
+    width: 240px;
+    font-size: 18px;
+    background: linear-gradient(to right, rgb(50, 50, 50), rgb(50, 70, 70)); 
+    padding-left: 15px;
+    padding-right: 15px;
+    color: whitesmoke;
+    outline: none;
+  }
+
+  option {
+    color: black;
+  }
+
+  button {
+    border: none;
+    margin-left: 5px;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    height: 40px;
+    width: 120px;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(30, 50, 50);
+    font-size: 16;
+  }
+  .UI-Title {
+    font-size: 3dvh;
+    font-family: 'SF Pro Display Bold';
+  }
+}
+
+
+.navbarBtn {
+  border: none;
+  border-radius: 3px;
+  padding-left: 30px;
+  padding-right: 30px;
+  height: 35px;
+  background-color: rgb(60, 108, 221);
+  color: rgb(210, 210, 210);
+  font-size: 18px;
+  font-family: sans-serif Bold;
+  border-radius: 5px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.navbarBtn[disabled] {
+  border: 1px solid rgb(60, 108, 221);
+  background-color: rgb(20, 20, 20);
+  cursor: default;
+}
+
+.Navbar {
+  display: inline-block;
+  padding-left: 10px;
+  padding-top: 10px;
+  background-color: rgb(20, 20, 20);
+  margin-bottom: 5px;
+  padding-bottom: 10px;
+  width: 100%;
+}
+
+.Navbar div {
+  display: inline-block;
+  border-left: 1px solid #CCC;
+  border-top: 5px solid #CCC;
+  border-radius: 100px;
+}
+
+/* Настройки */
+
+.UI-Settings .UI-Settings-Avatar {
+  border-radius: 50%;
+  
+}
+</style>
+<body>
+    <center>
+        <div class="UI-Block center" style="width: 400px;">
+            <div class=".UI-Title">Авторизация</div>
+            <input placeholder="Почта" id="mail" style="width: 100px;"><br>
+            <input placeholder="Пароль" id="passw" style="width: 100px;"><br>
+            <button onclick="formtosend()" style="margin-bottom: 10px;">Войти</button>
+        </div>
+    </center>
+
+    <script src="/eel.js"></script>
+    <script>
+        function formtosend() {
+            eel.auth(
+                document.getElementById('mail').value,
+                document.getElementById('passw').value
+            )(function(response) {
+                document.getElementById('passw').value = ""
+                response = JSON.parse(response)
+                console.log(response)
+                if(response.status == "success") {
+                    window.location.href = response.Location
+                }
+            });
+        }
+
+    </script>
+
+</body>
+</html>

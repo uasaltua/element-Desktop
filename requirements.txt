@@ -2,3 +2,4 @@ eel
 Pillow
 plyer
 io
+pystray

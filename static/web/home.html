@@ -6,7 +6,7 @@
     <title>element</title>
     <link rel="stylesheet" href="UI/style.css">
 </head>
-<body>
+<body style="width: 644px;">
 
 <div class="top-navbar" style="z-index: 10;">
   <center>
@@ -25,6 +25,21 @@
     <button onclick="eel.send_comment(postId, document.querySelector('#commentInput').value)(function() {loadComms(); document.querySelector('#commentInput').value = ''})" style="cursor: pointer;border-top-left-radius: 0;border-bottom-left-radius: 0;width: 60px;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-horizontal"><path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z"/><path d="M6 12h16"/></svg></button>
     <hr>
     <div></div>
+  </center>
+</div>
+
+<div id="profile" class="profileClosed" style="width: 500px;position: fixed; left: 50px; height: 745px; background-color: rgb(25, 25, 25);overflow: auto; transition: 0.3s;">
+  <center>
+    <button onclick="document.querySelector('#profile').className = 'profileClosed'; document.querySelector('.posts').style.filter = 'none';" style="width: 400px; height: 4px;background-color: rgb(90, 25, 25);cursor: pointer;"></button>
+    <img id="cover" style="height: 150px;width: 480px; border-radius: 10px;">
+    <img id="avatar" style="height: 100px;width: 100px; border-radius: 50%;top: -50px;position: relative;border: 10px solid rgb(25, 25, 25);">
+    <p id="username" style="position: relative;top: -55px;"></p>
+    <div id="stats">
+      <button style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;position: relative;top: -80px;" id="subscriptions">0 <p style="font-size: 11px;color: gray;margin-top: 3px;">Подписок</p></button>
+      <button style="border-radius: 0;position: relative;top: -80px;" id="subscribers">0 <p style="font-size: 11px;color: gray;margin-top: 3px;">Подписчиков</p></button>
+      <button style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;padding: 10px;position: relative;top: -72px;" id="posts">0<p style="font-size: 11px;color: gray;margin-top: 3px;">Постов</p></button>
+    </div>
+    <div id="description" style="margin-top: 5px;background-color: rgb(35, 35, 35);border-radius: 10px;width: 450px;height: 300px;text-align: left;padding: 10px;position: relative;top: -70px;"></div>
   </center>
 </div>
 
@@ -47,11 +62,11 @@
   <center>
     <button onclick="document.querySelector('#music').className = 'musicClosed';document.querySelector('#musicPlayer').style.display = 'none'; document.querySelector('.posts').style.filter = 'none';" style="width: 400px; height: 4px;background-color: rgb(90, 25, 25);cursor: pointer;"></button>
     <h2 style="margin-left: 25px; text-align: left;">Любимые</h2>
-    <div id="favorite" style="display: inline-flex;overflow-x: auto;overflow-y: none;width: 500px;"></div>
+    <div id="favorite" style="display: inline-flex;overflow-x: auto;overflow-y: none;width: 480px;"></div>
     <h2 style="margin-left: 25px; text-align: left;">Новые</h2>
-    <div id="new" style="display: inline-flex;overflow-x: scroll;overflow-y: none;width: 500px;"></div>
+    <div id="new" style="display: inline-flex;overflow-x: scroll;overflow-y: none;width: 470px;"></div>
     <h2 style="margin-left: 25px; text-align: left;">Случайные</h2>
-    <div id="random" style="display: inline-flex;overflow-x: scroll;overflow-y: none;width: 500px;"></div>
+    <div id="random" style="display: inline-flex;overflow-x: scroll;overflow-y: none;width: 470px;"></div>
   </center>
 </div>
 

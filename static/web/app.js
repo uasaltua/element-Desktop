@@ -50,14 +50,11 @@ function substr78(text) {
 }
 
 function load_music() {
-  // var indexF = document.querySelectorAll('#music').querySelector('#favorite').length
-  // var indexN = document.querySelectorAll('#music').querySelector('#new').length
-  // var indexR = document.querySelectorAll('#music').querySelector('#random').length
-  var index = 0
-  document.querySelector('#music').querySelector('#favorite').innerHTML = ""
-  document.querySelector('#music').querySelector('#random').innerHTML = ""
-  document.querySelector('#music').querySelector('#new').innerHTML = ""
-  eel.get_music("FAVORITES", index)(function(music) {
+  var indexF = document.querySelector('#music').querySelector('#favorite').length
+  var indexN = document.querySelector('#music').querySelector('#new').length
+  var indexR = document.querySelector('#music').querySelector('#random').length
+  //var index = 0
+  eel.get_music("FAVORITES", indexF)(function(music) {
     for (let i = 0; i < music.length; i++) {
       var cover = "noMusicCover.jpg";
       if (music[i].Cover) {
@@ -71,7 +68,7 @@ function load_music() {
       </div>`
     }
   })
-  eel.get_music("LATEST", index)(function(music) {
+  eel.get_music("LATEST", indexN)(function(music) {
     for (let i = 0; i < music.length; i++) {
       var cover = "noMusicCover.jpg";
       if (music[i].Cover) {
@@ -85,7 +82,7 @@ function load_music() {
       </div>`
     }
   })
-  eel.get_music("RANDOM", index)(function(music) {
+  eel.get_music("RANDOM", indexR)(function(music) {
     for (let i = 0; i < music.length; i++) {
       var cover = "noMusicCover.jpg";
       if (music[i].Cover) {
@@ -131,11 +128,28 @@ function load_music() {
   }, 1000)
 }
 
+function loadProfile(id) {
+  eel.get_profile(id)(function(profiledata) {
+    var profile = document.querySelector("#profile")
+
+    profile.querySelector("#cover").src = "https://elemsocial.com/Content/Covers/" + profiledata.Cover
+    profile.querySelector("#avatar").src = "https://elemsocial.com/Content/Avatars/" + profiledata.Avatar
+    profile.querySelector("#username").innerHTML = "@" + profiledata.Username
+
+    profile.querySelector("#subscriptions").innerHTML = profiledata.Subscriptions + '<p style="font-size: 11px;color: gray;margin-top: 3px;">Подписок</p>'
+    profile.querySelector("#subscribers").innerHTML = profiledata.Subscribers + '<p style="font-size: 11px;color: gray;margin-top: 3px;">Подписчиков</p>'
+    profile.querySelector("#posts").innerHTML = profiledata.Posts + '<p style="font-size: 11px;color: gray;margin-top: 3px;">Постов</p>'
+
+    profile.querySelector("#description").innerHTML = profiledata.Description
+
+    profile.className = "profile"
+  })
+}
+
 function load_posts() {
 var index = document.querySelectorAll('.Post').length - 1
 eel.load_posts(index)(function(posts) {
   posts = JSON.parse(posts);
-  console.log(posts)
 
   for (let i = 0; i < posts.length; i++) {
     if (posts[i].Comments == 0) {
@@ -168,16 +182,15 @@ eel.load_posts(index)(function(posts) {
 
     if (posts[i].Content) {
       if (JSON.parse(posts[i].Content).Image) {
-        postContent = `<img src="https://elemsocial.com/Content/Posts/Images/${JSON.parse(posts[i].Content).Image.file_name}" alt="Photo" style="margin-top: 19px;width: ${JSON.parse(posts[i].Content).Image.width}px; max-width: 600px;height: ${JSON.parse(posts[i].Content).Image.height}px; max-height: 900px; border-radius: 10px;">`
+        postContent = `<img src="https://elemsocial.com/Content/Posts/Images/${JSON.parse(posts[i].Content).Image.file_name}" alt="Photo" style="margin-top: 19px;width: ${JSON.parse(posts[i].Content).Image.width}px; max-width: 600px;height: ${JSON.parse(posts[i].Content).Image.height}px; max-height: 300px; border-radius: 10px;">`
       }
     }
-
     document.querySelector(".posts").innerHTML += `
 <div class="Post">
   <div style="margin-bottom: 10px;display: flex;">
     <img src="https://elemsocial.com/Content/Avatars/${posts[i].Avatar}" alt="avatar">
     <div style="display: flex;flex-direction: column;margin: 0;">
-      <a style="color: white; text-decoration: none;margin: 0;" href="/profiles.html?id=${posts[i].AuthorID}">${posts[i].Name}</a>
+      <button style="color: white; background-color: transparency;margin: 0;padding: 0;height: 15px;" onclick="loadProfile('${posts[i].Username}')">${posts[i].Name}</button>
       <p style="font-size: 12px;color: rgb(200, 200, 200);">${TimeAgo(posts[i].Date)}</p>
     </div>
   </div>
@@ -198,12 +211,27 @@ load_posts()
 window.addEventListener("load", function() {
   eel.my_profile()(function(profile) {
     document.querySelector('.top-navbar').querySelector('button').querySelector('img').src = `https://elemsocial.com/Content/Avatars/${JSON.parse(profile).Avatar}`
+    document.querySelector('.top-navbar').querySelector('button').onclick = function(){
+      loadProfile(profile.Username)
+    }
   })
   
   window.addEventListener("scroll", () => {
-    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 1) {
+    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 36) {
       load_posts()
     }
+    
+    // if (document.querySelector('#random').scrollLeft + document.querySelector('#new').clientWidth >= document.querySelector('#new').scrollWidth) {
+    //   load_music()
+    // }
+    
+    // if (document.querySelector('#favorite').scrollLeft + document.querySelector('#new').clientWidth >= document.querySelector('#new').scrollWidth) {
+    //   load_music()
+    // }
+    
+    // if (document.querySelector('#new').scrollLeft + document.querySelector('#new').clientWidth >= document.querySelector('#new').scrollWidth) {
+    //     load_music();
+    // }
   })
 
   document.querySelector('#searcher').addEventListener("input", function() {

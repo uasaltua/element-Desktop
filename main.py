@@ -9,10 +9,9 @@ try:
     from PIL import Image
     import sys
     import shutil
-except:
-    os.system("%userprofile%\\AppData\\Local\\Programs\\Python\\Python38\\python.exe -m pip install eel") 
-    os.system("%userprofile%\\AppData\\Local\\Programs\\Python\\Python38\\python.exe -m pip install pillow") 
-    os.system("%userprofile%\\AppData\\Local\\Programs\\Python\\Python38\\python.exe -m pip install io") 
+except ModuleNotFoundError:
+    os.system("%userprofile%\\AppData\\Local\\Programs\\Python\\Python38\\python.exe -m pip install eel")
+    os.system("%userprofile%\\AppData\\Local\\Programs\\Python\\Python38\\python.exe -m pip install pillow")
     os.system("%userprofile%\\AppData\\Local\\Programs\\Python\\Python38\\python.exe -m pip install plyer")
     os.system("%userprofile%\\AppData\\Local\\Programs\\Python\\Python38\\python.exe -m pip install pystray")
     import eel, json
@@ -21,6 +20,8 @@ except:
     from time import sleep
     import requests
     from pystray import Icon, MenuItem, Menu
+    from PIL import Image
+    import sys
     import shutil
 
 eel.init('static/web')

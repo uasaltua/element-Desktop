@@ -80,7 +80,7 @@ class element:
         if not req.content.decode() == "" and int(req.content.decode()) >= 1:
             allnotifys = requests.post(f"https://elemsocial.com/System/API/Notifications.php?F=GET", data={"StartIndex": "0"}, headers={"S-KEY": S_KEY, 'User-Agent':'ElementAPI'}).json()
             for i in range(0, int(req.content.decode())):
-                respond = getAction(allnotifys[i].get("Action"), json.loads(allnotifys[i].get("Content"))["Text"] if allnotifys[i].get("Content") == None else None)
+                respond = getAction(allnotifys[i].get("Action"), None if allnotifys[i].get("Content") == None else json.loads(allnotifys[i].get("Content"))["Text"])
                 icoPath = "static/logo.ico"
                 if allnotifys[i].get("Avatar"):
                     element.convert_png_to_ico(requests.get("https://elemsocial.com/Content/Avatars/" + allnotifys[i].get("Avatar")).content)

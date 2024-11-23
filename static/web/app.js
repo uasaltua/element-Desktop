@@ -9,7 +9,7 @@ function loadComms() {
         <div style="margin-bottom: 10px;display: flex;">
           <img src="https://elemsocial.com/Content/Avatars/${comments[i].Avatar}" alt="avatar">
           <div style="display: flex;flex-direction: column;margin: 0;">
-            <a style="color: white; text-decoration: none;margin: 0;" href="/profiles.html?username=${comments[i].Username}">${comments[i].Name}</a>
+            <a style="color: white; text-decoration: none;margin: 0;" onclick="loadProfile('${comments[i].Username}'); document.querySelector('#comments').className = 'CommentsClosed';">${comments[i].Name}</a>
             <p>${TimeAgo(comments[i].Date)}</p>
           </div>
         </div>
@@ -142,8 +142,15 @@ function loadProfile(id) {
 
     profile.querySelector("#description").innerHTML = profiledata.Description
 
+    document.querySelector('.posts').style.filter = 'blur(10px)';
     profile.className = "profile"
   })
+}
+
+function addBreaks(text, n) {
+  if (text) {
+    return text.match(new RegExp(`.{1,${n}}`, 'g')).join('<br>');
+  } else {return text;}
 }
 
 function load_posts() {
@@ -188,13 +195,13 @@ eel.load_posts(index)(function(posts) {
     document.querySelector(".posts").innerHTML += `
 <div class="Post">
   <div style="margin-bottom: 10px;display: flex;">
-    <img src="https://elemsocial.com/Content/Avatars/${posts[i].Avatar}" alt="avatar">
+    <img src="https://elemsocial.com/Content/Avatars/${posts[i].Avatar}" style="margin-right: 5px;" alt="avatar">
     <div style="display: flex;flex-direction: column;margin: 0;">
-      <button style="color: white; background-color: transparency;margin: 0;padding: 0;height: 15px;" onclick="loadProfile('${posts[i].Username}')">${posts[i].Name}</button>
-      <p style="font-size: 12px;color: rgb(200, 200, 200);">${TimeAgo(posts[i].Date)}</p>
+      <button style="color: white; background-color: rgb(15, 15, 15);margin: 0;padding: 0;height: 15px;margin-top: 8px;text-align: left;" onclick="loadProfile('${posts[i].Username}')">${posts[i].Name}</button>
+      <p style="margin-top: 5px;font-size: 12px;color: rgb(200, 200, 200);">${TimeAgo(posts[i].Date)}</p>
     </div>
   </div>
-  ${posts[i].Text}<br>
+  ${addBreaks(posts[i].Text, 100)}<br>
   ${postContent}
   <div>
         <button onclick="if (this.className == 'like') {eel.actionOnPost(${posts[i].ID}, 'LIKE')(); this.className = 'liked'} else {eel.actionOnPost(${posts[i].ID}, 'DELETE')(); this.className = 'like'}" class="UI-Button ${liked}" style="font-size: 16; margin-rigth: 0; border-top-right-radius: 0px; border-bottom-right-radius: 0px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> ${likes}</button>
@@ -211,9 +218,9 @@ load_posts()
 window.addEventListener("load", function() {
   eel.my_profile()(function(profile) {
     document.querySelector('.top-navbar').querySelector('button').querySelector('img').src = `https://elemsocial.com/Content/Avatars/${JSON.parse(profile).Avatar}`
-    document.querySelector('.top-navbar').querySelector('button').onclick = function(){
+    document.querySelector('.top-navbar').querySelector('button').addEventListener("click", function(){
       loadProfile(profile.Username)
-    }
+    })
   })
   
   window.addEventListener("scroll", () => {
@@ -244,14 +251,20 @@ window.addEventListener("load", function() {
       document.querySelector('#searcherDIV').querySelector('div').innerHTML = ''
       for (let i = 0; i < results.Content.length; i++) {
         document.querySelector('#searcherDIV').querySelector('div').innerHTML += `
-        
     <div class="Post1">
-      <img src="https://elemsocial.com/Content/Avatars/${results.Content[i].Avatar}" alt="avatar">
-      <div style="display: flex;flex-direction: column;margin: 0;">
-        <a style="color: white; text-decoration: none;margin: 0;" href="/profiles.html?Username=${results.Content[i].Username}">${results.Content[i].Name}</a>
+  <div style="display: flex; align-items: center; gap: 10px; height: 50px;">
+    <img src="https://elemsocial.com/Content/Avatars/${results.Content[i].Avatar}" alt="avatar" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+      <div style="display: flex; flex-direction: column;">
+      <button style="background-color: transparent; color: white; text-decoration: none; margin: 0; padding: 0; border: none; font-size: 16px; text-align: left; height: 23px;" 
+              onclick="document.querySelector('#profile').className = 'profileClosed'; loadProfile('${results.Content[i].Username}'); document.querySelector('#searcherDIV').className = 'searchClosed';document.querySelector('.posts').style.filter = 'blur(10)';">
+        ${results.Content[i].Name}
+      </button>
+      <p style="margin: 0px; color: rgba(250, 250, 250, 0.5); font-size: 14px;">
         ${results.Content[i].Subs} подписчиков • ${results.Content[i].Posts} постов
-      </div>
-    </div>`
+      </p>
+    </div>
+  </div>
+</div>`
       }
     })
   })

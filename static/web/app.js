@@ -84,6 +84,15 @@ function get_FAVORITES() {
           document.querySelector("audio").addEventListener("loadedmetadata", function () {
             player.querySelector("input").max = document.querySelector("audio").duration
             document.querySelector("audio").play()
+            if ('mediaSession' in navigator) {
+              navigator.mediaSession.metadata = new MediaMetadata({
+                title: song.Title,
+                artist: song.Artist,
+                artwork: [
+                  { src: player.querySelector("img").src, sizes: '300x300', type: 'image/jpeg' }
+                ]
+              });
+            }
           })
 
           document.querySelector("audio").addEventListener("timeupdate", function () {
@@ -163,6 +172,15 @@ function load_music() {
           document.querySelector("audio").addEventListener("loadedmetadata", function () {
             player.querySelector("input").max = document.querySelector("audio").duration
             document.querySelector("audio").play()
+            if ('mediaSession' in navigator) {
+              navigator.mediaSession.metadata = new MediaMetadata({
+                title: song.Title,
+                artist: song.Artist,
+                artwork: [
+                  { src: player.querySelector("img").src, sizes: '300x300', type: 'image/jpeg' }
+                ]
+              });
+            }
           })
 
           document.querySelector("audio").addEventListener("timeupdate", function () {
@@ -247,7 +265,7 @@ eel.load_posts(index)(function(posts) {
       <p style="margin-top: 5px;font-size: 12px;color: rgb(200, 200, 200);">${TimeAgo(posts[i].Date)}</p>
     </div>
   </div>
-  ${addBreaks(posts[i].Text, 100)}<br>
+  ${addBreaks(posts[i].Text, 53)}<br>
   ${postContent}
   <div>
         <button onclick="if (this.className == 'like') {eel.actionOnPost(${posts[i].ID}, 'LIKE')(); this.className = 'liked'} else {eel.actionOnPost(${posts[i].ID}, 'DELETE')(); this.className = 'like'}" class="UI-Button ${liked}" style="font-size: 16; margin-rigth: 0; border-top-right-radius: 0px; border-bottom-right-radius: 0px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> ${likes}</button>

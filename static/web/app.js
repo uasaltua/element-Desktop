@@ -42,11 +42,57 @@ function substr12(text) {
   return text
 }
 
-function substr78(text) {
-  if (text.length > 78) {
-    return text.substring(0, 75) + "...";
+function substr43(text) {
+  if (text.length > 43) {
+    return text.substring(0, 40) + "...";
   }
   return text
+}
+
+function get_FAVORITES() {
+  eel.get_music("FAVORITES", 0)(function(music) {
+    document.querySelector('#music').querySelector('#favorite').innerHTML = ''
+    for (let i = 0; i < music.length; i++) {
+      var cover = "noMusicCover.jpg";
+      if (music[i].Cover) {
+        cover = "https://elemsocial.com/Content/Simple/" + music[i].Cover.simple_image
+      }
+      document.querySelector('#music').querySelector('#favorite').innerHTML += `
+      <div class="MusicItem" id="${music[i].ID}">
+        <img src="${cover}"><br>
+        ${substr12(music[i].Title)}<br>
+        <p style="font-size: 12px;font-family: 'SF Pro Display Bold', Arial, Helvetica, sans-serif;color: rgb(150, 150, 150);">${substr12(music[i].Artist)}</p>
+      </div>`
+    }
+    document.querySelectorAll(".MusicItem").forEach(item => {
+      item.addEventListener("click", function() {
+        eel.load_song(item.id)(function(song){
+          document.querySelector("audio").id = item.id
+          if (song.Liked) {
+            document.querySelector("#like").querySelector('svg').setAttribute("fill", "white")
+          } else {
+            document.querySelector("#like").querySelector('svg').setAttribute("fill", "none")
+          }
+          document.querySelector("audio").src = "https://elemsocial.com/Content/Music/Files/" + song.File
+          var player = document.querySelector("#musicPlayer")
+          player.querySelector("p").innerHTML = substr43(song.Title + " - " + song.Artist)
+          if (song.Cover) {
+            player.querySelector("img").src = "https://elemsocial.com/Content/Simple/" + song.Cover.simple_image
+          } else {
+            player.querySelector("img").src = "noMusicCover.jpg"
+          }
+          document.querySelector("audio").addEventListener("loadedmetadata", function () {
+            player.querySelector("input").max = document.querySelector("audio").duration
+            document.querySelector("audio").play()
+          })
+
+          document.querySelector("audio").addEventListener("timeupdate", function () {
+            player.querySelector("input").value = document.querySelector("audio").currentTime
+          })
+        })
+      })
+    });
+  })
 }
 
 function load_music() {
@@ -108,7 +154,7 @@ function load_music() {
           }
           document.querySelector("audio").src = "https://elemsocial.com/Content/Music/Files/" + song.File
           var player = document.querySelector("#musicPlayer")
-          player.querySelector("p").innerHTML = substr78(song.Title + " - " + song.Artist)
+          player.querySelector("p").innerHTML = substr43(song.Title + " - " + song.Artist)
           if (song.Cover) {
             player.querySelector("img").src = "https://elemsocial.com/Content/Simple/" + song.Cover.simple_image
           } else {

@@ -20,6 +20,13 @@ except ModuleNotFoundError:
     os.system("%userprofile%\\AppData\\Local\\Programs\\Python\\Python38\\python.exe -m pip install plyer")
     os.system("%userprofile%\\AppData\\Local\\Programs\\Python\\Python38\\python.exe -m pip install pystray")
     os.system("%userprofile%\\AppData\\Local\\Programs\\Python\\Python38\\python.exe -m pip install pypresence")
+
+    os.system("pip install eel")
+    os.system("pip install pillow")
+    os.system("pip install win10toast-click")
+    os.system("pip install plyer")
+    os.system("pip install pystray")
+    os.system("pip install pypresence")
     import eel, json
     from threading import Thread
     from time import sleep, time

@@ -44,7 +44,7 @@ class updater:
                 
 
     def checkUpdates():
-        response = requests.get("https://raw.githubusercontent.com/uasaltua/element-Desktop/e8dae97f6os.e31c67e760da3a5e22aedcdba792e26/ver.info")
+        response = requests.get("https://raw.githubusercontent.com/uasaltua/element-Desktop/822852027a5e74205914c359b72e34f475d06a4b/ver.info")
 
         if not response.status_code == 200:
             return False

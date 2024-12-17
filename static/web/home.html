@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>element</title>
-    <link rel="stylesheet" href="UI/style.css">
+    <link rel="stylesheet" href="UI/style.css?v=1.0">
 </head>
 <body style="width: 644px;">
-
+<noscript>Приложение без JavaScript не работает</noscript>
 <div class="top-navbar" style="z-index: 10;">
   <center>
     <input placeholder="Поиск" id="searcher">
@@ -21,10 +21,22 @@
 <div id="comments" class="CommentsClosed" style="width: 500px;position: fixed; left: 50px; height: 510px; background-color: rgb(25, 25, 25);overflow: auto; transition: 0.3s;z-index: 10;">
   <center>
     <button onclick="document.querySelector('#comments').className = 'CommentsClosed'; document.querySelector('.posts').style.filter = 'none';" style="width: 400px; height: 4px;background-color: rgb(90, 25, 25);cursor: pointer;"></button>
-    <input id="commentInput" style="border-top-right-radius: 0;border-bottom-right-radius: 0; height: 40px;width: 390px;" placeholder="Введите текст">
+    <input id="commentInput" style="border-top-right-radius: 0;border-bottom-right-radius: 0; height: 40px;width: 390px;position: relative;top: -5px;" placeholder="Введите текст">
     <button onclick="eel.send_comment(postId, document.querySelector('#commentInput').value)(function() {loadComms(); document.querySelector('#commentInput').value = ''})" style="cursor: pointer;border-top-left-radius: 0;border-bottom-left-radius: 0;width: 60px;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-horizontal"><path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z"/><path d="M6 12h16"/></svg></button>
     <hr>
     <div></div>
+  </center>
+</div>
+
+<div id="settings" class="settingsClosed" style="width: 660px;position: fixed; height: 757px; background-color: rgb(25, 25, 25);overflow: auto; transition: 0.3s;z-index: 10;">
+  <center>
+    <button onclick="document.querySelector('#settings').className = 'settingsClosed'" style="width: 400px; height: 4px;background-color: rgb(90, 25, 25);cursor: pointer;"></button>
+    <img id="cover" style="height: 150px;width: 480px; border-radius: 10px;position: relative;left: 67.5px;" ondragover="event.preventDefault();" ondrop="uploadCover(event)">
+    <img id="avatar" style="height: 100px;width: 100px; border-radius: 50%;top: 55px;position: relative;border: 10px solid rgb(25, 25, 25);right: 240px;background-color: rgb(25, 25, 25);" ondragover="event.preventDefault();" ondrop="uploadAvatar(event)">
+    <button id="ChangeUsername" style="width: 625px; margin-right: 20px; top: 50px; position: relative;text-align: left;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-at-sign"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></svg> Сменить имя пользователя <p>Error</p></button>
+    <button id="ChangeMail" style="width: 625px; margin-right: 20px; top: 28px; position: relative;text-align: left;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> Сменить почту <p>Error</p></button>
+    <button id="ChangePassword" style="width: 625px; margin-right: 20px; top: 5px; position: relative;text-align: left;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-key-round"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg> Сменить пароль</button>
+    <button id="Sessions" style="width: 625px; margin-right: 20px; top: -5px; position: relative;text-align: left;"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-monitor-smartphone"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"/><path d="M10 19v-3.96 3.15"/><path d="M7 19h5"/><rect width="6" height="10" x="16" y="12" rx="2"/></svg> Сессии <p>Error</p></button>
   </center>
 </div>
 
@@ -35,13 +47,13 @@
     <img id="avatar" style="height: 100px;width: 100px; border-radius: 50%;top: -50px;position: relative;border: 10px solid rgb(25, 25, 25);">
     <p id="username" style="position: relative;top: -55px;"></p>
     <div id="stats">
-      <button style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;position: relative;top: -80px;;" id="subscriptions">0 <p style="font-size: 11px;color: gray;margin-top: 3px;">Подписок</p></button>
-      <button style="border-radius: 0;position: relative;top: -80px;" id="subscribers">0 <p style="font-size: 11px;color: gray;margin-top: 3px;">Подписчиков</p></button>
-      <button style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;padding: 10px;padding-bottom: 15px; position: relative; top: -72px;" id="posts">0<p style="font-size: 11px;color: gray;margin-top: 3px;">Постов</p></button>
+      <button style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;position: relative;top: -80px; padding-top: 5px;" id="subscriptions">0 <p style="font-size: 11px;color: gray;margin-top: 3px;">Подписок</p></button>
+      <button style="border-radius: 0; position: relative; top: -80px; padding-top: 5px;" id="subscribers">0 <p style="font-size: 11px;color: gray;margin-top: 3px;">Подписчиков</p></button>
+      <button style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;padding: 10px;padding-bottom: 15px; position: relative; top: -78px; padding-top: 7px;" id="posts">0<p style="font-size: 11px;color: gray;margin-top: 3px;">Постов</p></button>
     </div>
-    <div id="description" style="margin-top: 5px;background-color: rgb(35, 35, 35);border-radius: 10px;width: 450px;text-align: left;padding: 20px;position: relative;top: -70px;"></div>
+    <div id="description" style="margin-top: 5px;background-color: rgb(35, 35, 35);border-radius: 10px;width: 430px;text-align: left;padding: 20px;position: relative;top: -70px;"></div>
   </center>
-  <div class="UserPosts"></div>
+  <div class="UserPosts"style="position: relative; padding-left: 10px; top: -60px;"></div>
 </div>
 
 <div id="musicPlayer" style="display: none; top: 130px;left: 60px;height: 70px;width: 500px;z-index: 10;position: fixed;background-color: rgb(25, 25, 25);border-radius: 10px;">
@@ -82,7 +94,7 @@
   <div class="Post">
     <textarea maxlength="3400" style="height: 56px; width: 587px;" placeholder="Введите текст"></textarea>
     <div>
-      <button onclick="eel.new_post(document.querySelector('textarea').value)(function(){window.location.reload()})" class="UI-Button comments">Отправить</button>
+      <button onclick="eel.new_post(document.querySelector('textarea').value)(function(){load_posts('upd'); document.querySelector('textarea').value = ''})" class="UI-Button comments">Отправить</button>
     </div>
   </div>
 </div>
@@ -108,7 +120,7 @@
       <br>
       Музыка
     </button>
-    <button onclick="window.location.href = '/home.html'">
+    <button onclick="document.querySelector('#settings').className = 'settings';">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
       <br>
       Настройки

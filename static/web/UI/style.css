@@ -754,6 +754,13 @@ body {
         font-size: 3dvh;
         font-family: 'SF Pro Display Bold';
     }
+    #avatar:hover, #cover:hover {
+        filter: brightness(55%);
+        transition: 0.3s;
+    }
+    #avatar, #cover {
+        transition: 0.3s;
+    }
     top: 74px;
     transition: 0.3s;
 }
@@ -763,4 +770,30 @@ body {
     background: rgb(20, 20, 20);
     top: 1500px;
     transition: 0.3s;
+}
+
+.intro {
+    position: fixed;
+    background: #282828;
+    width: 100%;
+    height: 100%;
+    color: #8264ad;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 619;
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    text-shadow: 0 0 10px #8264ad;
+    animation: fadeOut 4s forwards;
+    z-index: 9999;
+}
+/* Анимации */
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
 }

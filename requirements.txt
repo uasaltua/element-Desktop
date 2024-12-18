@@ -1,4 +1,4 @@
-eel
-Pillow
-plyer
+eel
+Pillow
+plyer
 pystray

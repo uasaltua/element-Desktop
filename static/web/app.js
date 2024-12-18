@@ -220,6 +220,31 @@ function formatFileSize(bytes) {
   return `${bytes.toFixed(2)} ${units[i]}`;
 }
 
+function send(type) {
+  document.querySelector('#fileInput').click()
+  if (type == "avatar") {
+    const fileInput = document.getElementById('fileInput');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        return;
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = async function(event) {
+        const fileContent = event.target.result;
+        const fileName = file.name;
+
+        await eel.sendAvatar(fileName, fileContent)(function() {
+          onload()
+        });
+      };
+
+      reader.readAsDataURL(file); 
+  }
+}
+
 eel.expose(loadProfile)
 function loadProfile(id, new_posts) {
   eel.get_profile(id)(function(profiledata) {

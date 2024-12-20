@@ -124,7 +124,7 @@ def add_to_tray():
 
     def open():
 
-        os.system("start static/ElementDesktop.exe")
+        os.system(f"start {os.environ['appdata']}\\..\\Local\\Programs\\element-client\\ElementDesktop.exe")
 
         icon.update_menu()
 

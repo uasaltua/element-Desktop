@@ -19,6 +19,60 @@ function loadComms() {
   })
 }
 
+var Themes = []
+
+function loadThemes() {
+  if (localStorage.getItem("CustomThemes")) {
+    Themes = JSON.parse(localStorage.getItem("CustomThemes"))
+    for (let i = 0; i < Themes.length; i++) {
+      var option = document.createElement('option')
+      option.value = Themes[i].name
+      option.innerHTML = Themes[i].name
+      document.querySelector('#ThemesSelector').appendChild(option)
+    }
+  }
+}
+
+loadThemes()
+
+function change(event) {
+  if(event.target.value == "dark") {
+    document.querySelector("#themelnk").href = "UI/style.css"
+    document.querySelector('#themeStyle').innerHTML = ""
+    return
+  } else if (event.target.value == "white") {
+    document.querySelector("#themelnk").href = "UI/white.css"
+    document.querySelector('#themeStyle').innerHTML = ""
+    return
+  }
+
+  for (let i = 0; i < Themes.length; i++) {
+    document.querySelector('#themeStyle').innerHTML = Themes[i].content
+  }
+  localStorage.setItem("SelectedTheme", event.target.value)
+}
+
+function loadCustomTheme() {
+  const file = document.getElementById("customTheme").files[0];
+  const reader = new FileReader();
+
+  reader.onload = function (event) {
+    const content = event.target.result
+    Themes.push({ name: file.name, content: content });
+
+    var option = document.createElement('option')
+    option.value = file.name
+    option.innerHTML = file.name
+    document.querySelector('#ThemesSelector').appendChild(option)
+
+    localStorage.setItem("CustomThemes", JSON.stringify(Themes))
+  };
+
+  reader.readAsText(file, "UTF-8")
+
+  localStorage.getItem(file)
+}
+
 function TimeAgo(dateStr) {
   const date = new Date(dateStr.replace(" ", "T"));
   if (isNaN(date.getTime())) return "Некорректная дата"; // Проверка на корректность
@@ -484,6 +538,15 @@ eel.load_posts(index)(function(posts) {
 load_posts()
   
 function onload() {
+  if (localStorage.getItem("SelectedTheme")) {
+    for (let i = 0; i < Themes.length; i++) {
+      if (Themes[i].name == localStorage.getItem("SelectedTheme")) {
+        document.querySelector('#themeStyle').innerHTML = Themes[i].content
+        document.querySelector('#themelnk').href = ""
+      }
+    }
+  }
+
   eel.my_profile()(function(profile) {
   document.querySelector('.top-navbar').querySelector('button').querySelector('img').src = `https://elemsocial.com/Content/Avatars/${JSON.parse(profile).Avatar}`
   document.querySelector('.top-navbar').querySelector('button').querySelector('img').addEventListener("click", function() {

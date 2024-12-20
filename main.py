@@ -124,13 +124,7 @@ def add_to_tray():
 
     def open():
 
-        try:
-
-            eel.start(page, size=(660, 934), block=True)
-
-        except OSError:
-
-            eel.start(page, mode='edge', size=(660, 934), block=True)  
+        os.system("start static/ElementDesktop.exe")
 
         icon.update_menu()
 
@@ -476,9 +470,45 @@ def redirect():
 
 #updater()
 
+print("Консоль элемент клиента")
+
 Thread(target=eel.start, args=(page), kwargs={"mode": None}, daemon=True).start()
 
 import sys, os
 from threading import Thread
+import win32com.client
 
-os.system("start dist/ElementDesktop.exe")
+def create_shortcut(target, shortcut_path):    
+    shell = win32com.client.Dispatch("WScript.Shell")
+    shortcut = shell.CreateShortcut(shortcut_path)
+    shortcut.TargetPath = target
+    shortcut.WorkingDirectory = os.path.dirname(target)
+    shortcut.Description = "Element desktop nogui"
+    shortcut.Arguments = "--no-gui"
+    shortcut.save()
+
+target = os.path.abspath(f"{os.environ['appdata']}\\Local\\Programs\\element-client\\ElementDesktop.exe")
+shortcut_path = os.path.join(os.environ['USERPROFILE'], 
+                             "AppData", 
+                             "Roaming", 
+                             "Microsoft", 
+                             "Windows", 
+                             "Start Menu", 
+                             "Programs", 
+                             "Startup", 
+                             "Element.lnk")
+
+try:
+    if not sys.argv[0] == "--no-gui":
+        if not sys.argv[1] == "--no-gui":
+            if os.path.exists(f"{os.environ['appdata']}\\Local\\Programs\\element-client\\ElementDesktop.exe"):
+                os.system(f"start {os.environ['appdata']}\\Local\\Programs\\element-client\\ElementDesktop.exe")
+                create_shortcut(target, shortcut_path)
+            else:
+                os.system("start static/ElementDesktop.exe")
+except:
+    if os.path.exists(f"{os.environ['appdata']}\\Local\\Programs\\element-client\\ElementDesktop.exe"):
+        os.system(f"start {os.environ['appdata']}\\Local\\Programs\\element-client\\ElementDesktop.exe")
+        create_shortcut(target, shortcut_path)
+    else:
+        os.system("start static/ElementDesktop.exe")

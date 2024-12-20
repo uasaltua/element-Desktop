@@ -12,13 +12,29 @@
     font-style: normal;
 }
 
+:root {
+    --background-gradient: linear-gradient(45deg, rgb(0, 0, 0), rgb(5, 5, 5));
+    --TEXT_COLOR: rgb(240, 240, 240);
+    --UI-block-background: rgb(20, 20, 20);
+    --UI-Block-border-radius: 10px;
+
+    --intro-color: #8264ad;
+    --intro-shadow: #8264ad;
+}
+
 body {
-    background: linear-gradient(to right, rgb(0, 0, 0), rgb(10, 10, 10));
-    color: white;
+    background: var(--background-gradient);
+    color: var(--TEXT_COLOR);
     overflow: auto;
     scrollbar-width: none;
-    margin: 5px;
-    font-family: 'SF Pro Display Medium', Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+    transition: color 0.5s;
+    transition: background 0.5s;
 }
 
 h2 {
@@ -30,8 +46,7 @@ h2 {
 }
 
 .UI-Block {
-    background-color: rgb(15, 15, 15);
-    border-radius: 10px;
+    background-color: var(--UI-block-background);
     max-width: 500px;
 }
   
@@ -40,22 +55,14 @@ h2 {
     font-family: 'SF Pro Display Bold';
 }
 
-body {
-    background: linear-gradient(to right, rgb(0, 0, 0), rgb(10, 10, 10));;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 0;
-    padding: 0;
-}
-  
 ::-webkit-scrollbar {
     display: none;
 }
   
 .UI-Block {
-    border-radius: 10px;
+    border-radius: var(--UI-Block-border-radius);
     max-width: 500px;
-    background: rgb(20, 20, 20);
+    background: var(--UI-block-background);
     margin-left: 10px;
     input {
         border: none;
@@ -67,7 +74,7 @@ body {
         font-size: 16px;
         background: linear-gradient(to right, rgb(50, 50, 50), rgb(50, 70, 70)); 
         padding-left: 15px;
-        color: whitesmoke;
+        color: var(--TEXT_COLOR);
         outline: none;
     }
     
@@ -82,7 +89,7 @@ body {
         background: linear-gradient(to right, rgb(50, 50, 50), rgb(50, 70, 70)); 
         padding-left: 15px;
         padding-right: 15px;
-        color: whitesmoke;
+        color: var(--TEXT_COLOR);
         outline: none;
     }
   
@@ -97,7 +104,7 @@ body {
         margin-bottom: 0px;
         height: 40px;
         border-radius: 10px;
-        color: white;
+        color: var(--TEXT_COLOR);
         background-color: rgb(30, 30, 30);
         font-size: 16;
         padding-left: 20px;
@@ -121,7 +128,7 @@ body {
 .Comments {
     border-radius: 10px;
     max-width: 500px;
-    background: rgb(20, 20, 20);
+    background: var(--UI-block-background);
     margin-left: 10px;
     z-index: 10;
     input {
@@ -134,7 +141,7 @@ body {
         font-size: 16px;
         background: linear-gradient(to right, rgb(50, 50, 50), rgb(50, 70, 70)); 
         padding-left: 15px;
-        color: whitesmoke;
+        color: var(--TEXT_COLOR);
         outline: none;
     }
     
@@ -149,7 +156,7 @@ body {
         background: linear-gradient(to right, rgb(50, 50, 50), rgb(50, 70, 70)); 
         padding-left: 15px;
         padding-right: 15px;
-        color: whitesmoke;
+        color: var(--TEXT_COLOR);
         outline: none;
     }
   
@@ -164,7 +171,7 @@ body {
         margin-bottom: 0px;
         height: 40px;
         border-radius: 10px;
-        color: white;
+        color: var(--TEXT_COLOR);
         background-color: rgb(30, 30, 30);
         font-size: 16;
         padding-left: 20px;
@@ -198,7 +205,7 @@ body {
 .CommentsClosed {
     border-radius: 10px;
     max-width: 500px;
-    background: rgb(20, 20, 20);
+    background: var(--UI-block-background);
     margin-left: 10px;
     top: 1500px;
     transition: 0.3s;
@@ -218,7 +225,7 @@ body {
         font-size: 16px;
         background: linear-gradient(to right, rgb(50, 50, 50), rgb(50, 70, 70)); 
         padding-left: 15px;
-        color: whitesmoke;
+        color: var(--TEXT_COLOR);
         outline: none;
     }
     
@@ -233,7 +240,7 @@ body {
         background: linear-gradient(to right, rgb(50, 50, 50), rgb(50, 70, 70)); 
         padding-left: 15px;
         padding-right: 15px;
-        color: whitesmoke;
+        color: var(--TEXT_COLOR);
         outline: none;
     }
   
@@ -248,7 +255,7 @@ body {
         margin-bottom: 0px;
         height: 40px;
         border-radius: 10px;
-        color: white;
+        color: var(--TEXT_COLOR);
         background-color: rgb(30, 30, 30);
         font-size: 16px;
         padding-left: 20px;
@@ -292,7 +299,11 @@ body {
         padding-top: 5px;
         resize: vertical;
         background-color: rgb(30, 30, 30);
-        color: white;
+        color: var(--TEXT_COLOR);
+    }
+
+    button:nth-of-type(0) {
+        background-color: transparent;
     }
 }
 
@@ -306,7 +317,7 @@ body {
         margin-bottom: 5px;
     }
     padding: 10px;
-    background-color: rgb(20, 20, 20);
+    background-color: var(--UI-block-background);
     border-radius: 10px;
     text-align: -webkit-left;
     width: 460px;
@@ -319,6 +330,9 @@ body {
         resize: vertical;
         background-color: rgb(30, 30, 30);
         color: white;
+    }
+    button:nth-of-type(1) {
+        background-color: transparent;
     }
 }
 
@@ -392,7 +406,7 @@ body {
         border-radius: 8px;
         padding: 10px 59px 10px 59px;
         background-color: rgb(10, 10, 10);
-        color: white;
+        color: var(--TEXT_COLOR);
     }
     
     .Active {
@@ -403,7 +417,7 @@ body {
 .search {
     border-radius: 10px;
     max-width: 500px;
-    background: rgb(20, 20, 20);
+    background: var(--UI-block-background);
     margin-left: 10px;
     z-index: 10;
     input {
@@ -416,7 +430,7 @@ body {
         font-size: 16px;
         background: linear-gradient(to right, rgb(50, 50, 50), rgb(50, 70, 70)); 
         padding-left: 15px;
-        color: whitesmoke;
+        color: var(--TEXT_COLOR)whitesmoke;
         outline: none;
     }
     
@@ -431,7 +445,7 @@ body {
         background: linear-gradient(to right, rgb(50, 50, 50), rgb(50, 70, 70)); 
         padding-left: 15px;
         padding-right: 15px;
-        color: whitesmoke;
+        color: var(--TEXT_COLOR);
         outline: none;
     }
   
@@ -446,7 +460,7 @@ body {
         margin-bottom: 0px;
         height: 40px;
         border-radius: 10px;
-        color: white;
+        color: var(--TEXT_COLOR);
         background-color: rgb(30, 30, 30);
         font-size: 16;
         padding-left: 20px;
@@ -472,7 +486,7 @@ body {
 .searchClosed {
     border-radius: 10px;
     max-width: 500px;
-    background: rgb(20, 20, 20);
+    background: var(--UI-block-background);
     margin-left: 10px;
     top: -210px;
     transition: 0.3s;
@@ -481,7 +495,7 @@ body {
 .music {
     border-radius: 10px;
     max-width: 500px;
-    background: rgb(20, 20, 20);
+    background: var(--UI-block-background);
     margin-left: 10px;
     z-index: 10;
     input {
@@ -494,7 +508,7 @@ body {
         font-size: 16px;
         background: linear-gradient(to right, rgb(50, 50, 50), rgb(50, 70, 70)); 
         padding-left: 15px;
-        color: whitesmoke;
+        color: var(--TEXT_COLOR);
         outline: none;
     }
     
@@ -509,7 +523,7 @@ body {
         background: linear-gradient(to right, rgb(50, 50, 50), rgb(50, 70, 70)); 
         padding-left: 15px;
         padding-right: 15px;
-        color: whitesmoke;
+        color: var(--TEXT_COLOR);
         outline: none;
     }
   
@@ -524,7 +538,7 @@ body {
         margin-bottom: 0px;
         height: 40px;
         border-radius: 10px;
-        color: white;
+        color: var(--TEXT_COLOR);
         background-color: rgb(30, 30, 30);
         font-size: 16;
         padding-left: 20px;
@@ -570,7 +584,7 @@ body {
 .profile {
     border-radius: 10px;
     max-width: 500px;
-    background: rgb(20, 20, 20);
+    background: var(--UI-block-background);
     margin-left: 10px;
     z-index: 10;
     input {
@@ -583,7 +597,7 @@ body {
         font-size: 16px;
         background: linear-gradient(to right, rgb(50, 50, 50), rgb(50, 70, 70)); 
         padding-left: 15px;
-        color: whitesmoke;
+        color: var(--TEXT_COLOR);
         outline: none;
     }
     
@@ -598,7 +612,7 @@ body {
         background: linear-gradient(to right, rgb(50, 50, 50), rgb(50, 70, 70)); 
         padding-left: 15px;
         padding-right: 15px;
-        color: whitesmoke;
+        color: var(--TEXT_COLOR);
         outline: none;
     }
   
@@ -613,7 +627,7 @@ body {
         margin-bottom: 0px;
         height: 40px;
         border-radius: 10px;
-        color: white;
+        color: var(--TEXT_COLOR);
         background-color: rgb(30, 30, 30);
         font-size: 16;
         padding-left: 20px;
@@ -639,7 +653,7 @@ body {
 .profileClosed {
     border-radius: 10px;
     max-width: 500px;
-    background: rgb(20, 20, 20);
+    background: var(--UI-block-background);
     margin-left: 10px;
     top: 1500px;
     transition: 0.3s;
@@ -652,7 +666,7 @@ body {
     padding-top: 10px;
     padding-left: 10px;
     text-align: left;
-    color: white;
+    color: var(--TEXT_COLOR);
     text-decoration: none;
     a {
         background-color: none;
@@ -682,6 +696,57 @@ body {
     border-radius: 10px;
     background: rgb(20, 20, 20);
     z-index: 10;
+    #Sessions, #ChangePassword, #ChangeMail, #ChangeUsername {
+        h2 {
+            position: relative;
+            top: -23px;
+            left: 20px;
+            font-size: 15px;
+            font-weight: normal;
+        }
+
+        svg {
+            position: relative;
+            top: 9px;
+            left: -5px;
+            width: 18px;
+            height: 18px;
+        }
+    }
+    #offline-mode-btn {
+        width: 625px;
+        margin-right: 20px;
+        top: -160px;
+        position: relative;
+        text-align: left;
+        z-index: 4;
+    }
+    #offline-mode {
+        padding-top: 8px;
+        position: relative;
+        z-index: 3;
+        top: -167px;
+        background-color: rgb(30, 30, 30);
+        width: 625px;
+        margin-right: 15px;
+        padding-bottom: 9px;
+        border-radius: 0 0 10px 10px;
+        #saving-music, #saving-last-posts, #saving-photos, #saving-my-profile {
+            margin: 0 20px 5px 5px;
+            background-color: rgb(25, 25, 25);
+            width: 615px;
+            margin-right: 20px;
+            text-align: left;
+        }
+    }
+    .active {
+        opacity: 1;
+        transition: opacity 0.3s ease;
+    }
+    .closed {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
     input {
         border: none;
         border-radius: 100px;
@@ -692,7 +757,7 @@ body {
         font-size: 16px;
         background: linear-gradient(to right, rgb(50, 50, 50), rgb(50, 70, 70)); 
         padding-left: 15px;
-        color: whitesmoke;
+        color: var(--TEXT_COLOR);
         outline: none;
     }
     
@@ -707,7 +772,7 @@ body {
         background: linear-gradient(to right, rgb(50, 50, 50), rgb(50, 70, 70)); 
         padding-left: 15px;
         padding-right: 15px;
-        color: whitesmoke;
+        color: var(--TEXT_COLOR);
         outline: none;
     }
   
@@ -722,7 +787,7 @@ body {
         margin-bottom: 0px;
         height: 40px;
         border-radius: 10px;
-        color: white;
+        color: var(--TEXT_COLOR);
         background-color: rgb(30, 30, 30);
         font-size: 16;
         padding-left: 20px;
@@ -731,7 +796,7 @@ body {
             color: rgba(131, 131, 131, 0);
             transition: 0.3s;
             position: relative;
-            top: -28px;
+            top: -52px;
             text-align: right;
         }
         transition: 0.2s;
@@ -767,7 +832,7 @@ body {
 
 .settingsClosed {
     border-radius: 10px;
-    background: rgb(20, 20, 20);
+    background: var(--UI-block-background);
     top: 1500px;
     transition: 0.3s;
 }
@@ -777,7 +842,7 @@ body {
     background: #282828;
     width: 100%;
     height: 100%;
-    color: #8264ad;
+    color: var(--intro-color);
     font-family: "Montserrat", sans-serif;
     font-weight: 619;
     font-style: normal;
@@ -786,8 +851,8 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 2rem;
-    text-shadow: 0 0 10px #8264ad;
-    animation: fadeOut 4s forwards;
+    text-shadow: 0 0 10px var(--intro-shadow);
+    animation: fadeOut 1.5s forwards;
     z-index: 9999;
 }
 /* Анимации */

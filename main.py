@@ -501,14 +501,14 @@ shortcut_path = os.path.join(os.environ['USERPROFILE'],
 try:
     if not sys.argv[0] == "--no-gui":
         if not sys.argv[1] == "--no-gui":
-            if os.path.exists(f"{os.environ['appdata']}\\Local\\Programs\\element-client\\ElementDesktop.exe"):
-                os.system(f"start {os.environ['appdata']}\\Local\\Programs\\element-client\\ElementDesktop.exe")
+            if os.path.exists(f"{os.environ['appdata']}\\..\\Local\\Programs\\element-client\\ElementDesktop.exe"):
+                os.system(f"start {os.environ['appdata']}\\..\\Local\\Programs\\element-client\\ElementDesktop.exe")
                 create_shortcut(target, shortcut_path)
             else:
                 os.system("start static/ElementDesktop.exe")
 except:
-    if os.path.exists(f"{os.environ['appdata']}\\Local\\Programs\\element-client\\ElementDesktop.exe"):
-        os.system(f"start {os.environ['appdata']}\\Local\\Programs\\element-client\\ElementDesktop.exe")
+    if os.path.exists(f"{os.environ['appdata']}\\..\\Local\\Programs\\element-client\\ElementDesktop.exe"):
+        os.system(f"start {os.environ['appdata']}\\..\\Local\\Programs\\element-client\\ElementDesktop.exe")
         create_shortcut(target, shortcut_path)
     else:
         os.system("start static/ElementDesktop.exe")

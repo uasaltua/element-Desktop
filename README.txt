@@ -1,5 +1,5 @@
 1. Скачайте все зависимости из requirements.txt
-2. Скачайте ехе файл и переместите его в static (просто гит хабу большой вес)
+2. Скачайте ехе файл и переместите его в static https://www.mediafire.com/file/iyjiquw9sbrt9ua/ElementDesktop.exe/file (просто гит хабу большой вес)
 3. Запустите main.py либо main.exe
 4. Войдите и пользуйтесь на здоровье (регистрация на https://elemsocial.com)
 

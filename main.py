@@ -488,11 +488,15 @@ def load_song(id):
         with open("temp/offline-mode.json", mode="r", encoding="UTF-8") as f:
             data = json.loads(f.read())
         
-
-        data["Music25"]["Files"].append({"ID": da["ID"], "Path": f"/OfflineMusic/{da['File']}", "Origin": da})
-        file = requests.get("https://elemsocial.com/Content/Music/Files/" + da['File']).content
-        with open(f"static/web/OfflineMusic/{da['File']}", mode="wb") as f:
-            f.write(file)
+        flag = True
+        for file in data["Music25"]["Files"]:
+            if int(file["ID"]) == int(id):
+                flag = False
+        if flag:
+            data["Music25"]["Files"].append({"ID": da["ID"], "Path": f"/OfflineMusic/{da['File']}", "Origin": da})
+            file = requests.get("https://elemsocial.com/Content/Music/Files/" + da['File']).content
+            with open(f"static/web/OfflineMusic/{da['File']}", mode="wb") as f:
+                f.write(file)
 
         with open("temp/offline-mode.json", mode="w", encoding="UTF-8") as f:
             f.write(json.dumps(data, indent=4))

@@ -98,7 +98,12 @@ notifier = ToastNotifier()
 
 rpc = Presence("1210698410257027162")
 
-rpc.connect()
+try:
+    rpc.connect()
+except:
+    class rpc:
+        def update(*args, **kwargs):
+            pass
 
 
 
@@ -209,8 +214,8 @@ def get_profile(username):
 @eel.expose
 
 def load_posts(start_index):
-
-    return json.dumps(element.get_posts(s_key, rpc, start_index))
+    response = element.get_posts(s_key, rpc, start_index)
+    return json.dumps(response)
 
 
 
@@ -225,8 +230,13 @@ def actionOnPost(id, type):
 @eel.expose
 
 def get_music(type, start_index):
-
-    req = requests.post(f'https://elemsocial.com/System/API/LoadSongs.php?F=' + type, headers={"S-KEY": s_key, 'User-Agent':'ElementAPI'}, data={"StartIndex": start_index})
+    try:
+        req = requests.post(f'https://elemsocial.com/System/API/LoadSongs.php?F=' + type, headers={"S-KEY": s_key, 'User-Agent':'ElementAPI'}, data={"StartIndex": start_index})
+    except:
+        class podmena:
+            def __init__(self):
+                self.status_code = 501
+        req = podmena()
 
     if not req.status_code == 200 or "<!DOCTYPE html>".lower() in req.content.decode().lower():
 
@@ -242,9 +252,27 @@ def get_music(type, start_index):
 
         )
 
+        with open("static/userdata.json") as f:
+            data = json.loads(f.read())
+
+        if data["Offline-mode"]["music-save"]:
+            with open("temp/offline-mode.json", mode="r", encoding="UTF-8") as f:
+                data = json.loads(f.read())
+            return data["Music25"][type]
+
         return
 
-    
+    with open("static/userdata.json") as f:
+        data = json.loads(f.read())
+
+    if data["Offline-mode"]["music-save"]:
+        with open("temp/offline-mode.json", mode="r", encoding="UTF-8") as f:
+            data = json.loads(f.read())
+        
+        data["Music25"][type] = req.json()
+
+        with open("temp/offline-mode.json", mode="w", encoding="UTF-8") as f:
+            f.write(json.dumps(data, indent=4))
 
     return req.json()
 
@@ -256,15 +284,76 @@ def new_post(text):
 
     element.new_post(s_key, text)
 
+@eel.expose
+def load_offline_mode_settings():
+    with open("static/userdata.json") as f:
+        data = json.loads(f.read())
+    
+    da = {}
+    da["music-save"] = data["Offline-mode"]["music-save"]
+    da["last-posts-save"] = data["Offline-mode"]["last-posts-save"]
+    da["my-profile-save"] = data["Offline-mode"]["my-profile-save"]
+    da["sessions-save"] = data["Offline-mode"]["sessions-save"]
+    return da
 
+@eel.expose
+def setOffline(type, mode):
+    with open("static/userdata.json") as f:
+        data = json.loads(f.read())
+
+    data["Offline-mode"][type] = not data["Offline-mode"][type]
+
+    with open("static/userdata.json", mode="w") as f:
+        f.write(json.dumps(data))
 
 @eel.expose
 
 def my_profile():
 
-    req = requests.get(f'https://elemsocial.com/System/API/Connect.php', headers={"S-KEY": s_key, 'User-Agent':'ElementAPI'}).json()
+    try:
+        req = requests.get(f'https://elemsocial.com/System/API/Connect.php', headers={"S-KEY": s_key, 'User-Agent':'ElementAPI'})
+    except:
+        class podmena:
+            def __init__(self):
+                self.status_code = 501
+        req = podmena()
 
-    return json.dumps(req)
+    if not req.status_code == 200 or "<!DOCTYPE html>".lower() in req.content.decode().lower():
+
+        plyer.notification.notify(
+
+            title='Профили',
+
+            message=f"Не удалось загрузить ваш профиль (status_code {req.status_code})",
+
+            app_name='element',
+
+            app_icon="./static/logo.ico",
+
+        )
+        with open("static/userdata.json") as f:
+            data = json.loads(f.read())
+
+        if data["Offline-mode"]["my-profile-save"]:
+            with open("temp/offline-mode.json", mode="r", encoding="UTF-8") as f:
+                data = json.loads(f.read())
+            return json.dumps(data["MyProfile"])
+
+        return
+
+    with open("static/userdata.json", mode="r", encoding="UTF-8") as f:
+        data = json.loads(f.read())
+    
+    if data["Offline-mode"]["my-profile-save"]:
+        with open("temp/offline-mode.json", mode="r", encoding="UTF-8") as f:
+            data = json.loads(f.read())
+        
+        data["MyProfile"] = req.json()
+
+        with open("temp/offline-mode.json", mode="w", encoding="UTF-8") as f:
+            f.write(json.dumps(data, indent=4))
+
+    return json.dumps(req.json())
 
 
 
@@ -331,8 +420,14 @@ def search(val, category):
 @eel.expose
 
 def load_song(id):
-
-    req = requests.post(f"https://elemsocial.com/System/API/LoadSong.php", headers={"S-KEY": s_key, 'User-Agent':'ElementAPI'}, data={"SongID": id})
+    try:
+        req = requests.post(f"https://elemsocial.com/System/API/LoadSong.php", headers={"S-KEY": s_key, 'User-Agent':'ElementAPI'}, data={"SongID": id})
+    except:
+        class podmena:
+            def __init__(self):
+                self.status_code = 501
+            def json(*args): pass
+        req = podmena()
 
     if not req.status_code == 200 or "<!DOCTYPE html>".lower() in req.content.decode().lower():
 
@@ -347,7 +442,23 @@ def load_song(id):
             app_icon="./static/logo.ico",
 
         )
+        with open("static/userdata.json", mode="r", encoding="UTF-8") as f:
+            data = json.loads(f.read())
 
+        if data["Offline-mode"]["music-save"]:
+            with open("temp/offline-mode.json", mode="r", encoding="UTF-8") as f:
+                data = json.loads(f.read())["Music25"]["Files"]
+
+            for song in data:
+                if song["ID"] == int(id):
+                    da = {
+                        "Offline": True,
+                        "File": "/OfflineMusic/" + song["Origin"]["File"],
+                        "Artist": song["Origin"]["Artist"],
+                        "Title": song["Origin"]["Title"],
+                        "Liked": song["Origin"]["Liked"]
+                    }
+                    return json.loads(json.dumps(da))
         return
 
     #Discord_API.update("https://elemsocial.com/Content/Simple/" + req.json()["Cover"]["simple_image"])
@@ -368,7 +479,25 @@ def load_song(id):
 
     )
 
-    return req.json()
+    with open("static/userdata.json", mode="r", encoding="UTF-8") as f:
+        data = json.loads(f.read())
+    
+    da = req.json()
+    da["Offline"] = False
+    if data["Offline-mode"]["music-save"]:
+        with open("temp/offline-mode.json", mode="r", encoding="UTF-8") as f:
+            data = json.loads(f.read())
+        
+
+        data["Music25"]["Files"].append({"ID": da["ID"], "Path": f"/OfflineMusic/{da['File']}", "Origin": da})
+        file = requests.get("https://elemsocial.com/Content/Music/Files/" + da['File']).content
+        with open(f"static/web/OfflineMusic/{da['File']}", mode="wb") as f:
+            f.write(file)
+
+        with open("temp/offline-mode.json", mode="w", encoding="UTF-8") as f:
+            f.write(json.dumps(data, indent=4))
+
+    return json.loads(json.dumps(da))
 
 
 
@@ -407,8 +536,13 @@ def load_UserPosts(id, start_index=0):
 @eel.expose
 
 def load_sessions():
-
-    req = requests.post(f"https://api.elemsocial.com/settings/load_sessions", headers={"S-KEY": s_key, 'User-Agent':'ElementAPI'})
+    try:
+        req = requests.post(f"https://api.elemsocial.com/settings/load_sessions", headers={"S-KEY": s_key, 'User-Agent':'ElementAPI'})
+    except:
+        class podmena:
+            def __init__(self):
+                self.status_code = 501
+        req = podmena()
 
     if not req.status_code == 200 or "<!DOCTYPE html>".lower() in req.content.decode().lower():
 
@@ -424,12 +558,29 @@ def load_sessions():
 
         )
 
-        print(req.content)
+        with open("static/userdata.json", mode="r", encoding="UTF-8") as f:
+            data = json.loads(f.read())
+        
+        if data["Offline-mode"]["sessions-save"]:
+            with open("temp/offline-mode.json", mode="r", encoding="UTF-8") as f:
+                data = json.loads(f.read())
+            
+            return data["Sessions"]
 
         return
 
     try:
+        with open("static/userdata.json", mode="r", encoding="UTF-8") as f:
+            data = json.loads(f.read())
+            
+        if data["Offline-mode"]["sessions-save"]:
+            with open("temp/offline-mode.json", mode="r", encoding="UTF-8") as f:
+                data = json.loads(f.read())
+                
+            data["Sessions"] = req.json()
 
+            with open("temp/offline-mode.json", mode="w", encoding="UTF-8") as f:
+                f.write(json.dumps(data, indent=4))
         return req.json()
 
     except:

@@ -55,10 +55,10 @@
     </div>
     <button id="offline-mode-btn" onclick="document.querySelector('#settings').querySelector('#offline-mode').classList.toggle('active'); document.querySelector('#settings').querySelector('#offline-mode').classList.toggle('closed');">Оффлайн режим</button>
     <div id="offline-mode" class="closed">
-      <button id="saving-music">Сохранять музыку</button>
-      <button id="saving-last-posts">Сохранять последние посты</button>
-      <button id="saving-photos">Сохранять фото</button>
-      <button id="saving-my-profile">Сохранять ваш профиль</button>
+      <button id="saving-music" onclick='eel.setOffline("music-save", false)(function () {chtotoload()})' class="notda">Сохранять музыку</button>
+      <button id="saving-last-posts" onclick='eel.setOffline("last-posts-save", false)(function () {chtotoload()})' class="notda">Сохранять последние посты</button>
+      <button id="saving-photos" onclick='eel.setOffline("my-profile-save", false)(function () {chtotoload()})' class="notda">Сохранять сессии</button>
+      <button id="saving-my-profile" onclick='eel.setOffline("sessions-save", false)(function () {chtotoload()})' class="notda">Сохранять ваш профиль</button>
     </div>
   </center>
 </div>

@@ -1,5 +1,22 @@
 var postId = 0 
 
+function chtotoload() {
+  eel.load_offline_mode_settings()(function (results){
+    if (results["music-save"]) {
+      document.querySelector('#settings').querySelector("#saving-music").className = "activated"
+    }
+    if (results["last-posts-save"]) {
+      document.querySelector('#settings').querySelector("#saving-last-posts").className = "activated"
+    }
+    if (results["my-profile-save"]) {
+      document.querySelector('#settings').querySelector("#saving-photos").className = "activated"
+    }
+    if (results["sessions-save"]) {
+      document.querySelector('#settings').querySelector("#saving-my-profile").className = "activated"
+    }
+  })
+}
+
 function loadComms() { 
   eel.load_comments(postId)(function(comments) {
     document.querySelector("#comments").querySelector("div").innerHTML = ''
@@ -231,7 +248,11 @@ function load_music() {
           } else {
             document.querySelector("#like").querySelector('svg').setAttribute("fill", "none")
           }
-          document.querySelector("audio").src = "https://elemsocial.com/Content/Music/Files/" + song.File
+          if (!song.Offline) {
+            document.querySelector("audio").src = "https://elemsocial.com/Content/Music/Files/" + song.File
+          } else {
+            document.querySelector("audio").src = song.File
+          }
           var player = document.querySelector("#musicPlayer")
           player.querySelector("p").innerHTML = substr43(song.Title + " - " + song.Artist)
           if (song.Cover) {
@@ -554,6 +575,23 @@ function onload() {
   })
 
   var settings = document.querySelector('#settings')
+
+  eel.load_offline_mode_settings()(function (results){
+    if (results["music-save"]) {
+      document.querySelector('#settings').querySelector("#saving-music").className = "activated"
+    }
+    if (results["last-posts-save"]) {
+      document.querySelector('#settings').querySelector("#saving-last-posts").className = "activated"
+    }
+    if (results["my-profile-save"]) {
+      document.querySelector('#settings').querySelector("#saving-photos").className = "activated"
+    }
+    if (results["sessions-save"]) {
+      document.querySelector('#settings').querySelector("#saving-my-profile").className = "activated"
+    }
+    
+  })
+
   settings.querySelector('#cover').src = "https://elemsocial.com/Content/Covers/" + JSON.parse(profile).Cover
   settings.querySelector('#avatar').src = "https://elemsocial.com/Content/Avatars/" + JSON.parse(profile).Avatar
 
@@ -567,6 +605,8 @@ function onload() {
     }
   })
 })
+
+
 
 document.querySelector('#searcher').addEventListener("input", function() {
   document.querySelector('#searcherDIV').className = 'search'

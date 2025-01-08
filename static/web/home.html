@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=0.559, user-scalable=no, viewport-fit=cover">
     <title>element</title>
     <link rel="stylesheet" href="UI/style.css?v=1.0">
+    <link rel="stylesheet" href="UI/animations.css?v=1.0">
     <link rel="stylesheet" id="themelnk" href="">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
-<body style="width: 644px;">
+<body>
 <noscript>Приложение без JavaScript не работает</noscript>
 <div class="intro">
  <img src="/static/logo.ico">
@@ -16,7 +18,7 @@
 </div>
 <div class="top-navbar" style="z-index: 10;">
   <center>
-    <input placeholder="Поиск" id="searcher">
+    <input placeholder="Поиск" id="searcher" style="position: relative;top: -15px;">
     <button><img></button>
   </center>
 </div>
@@ -24,7 +26,13 @@
 <br>
 <div style="margin-top: 56px;"></div>
 
-<div id="comments" class="CommentsClosed" style="width: 500px;position: fixed; left: 50px; height: 510px; background-color: rgb(25, 25, 25);overflow: auto; transition: 0.3s;z-index: 10;">
+<div id="notification" class="closed">
+  <img src="favicon.ico">
+  <p id="Name">Name</p>
+  <p id="ActionText">Action</p>
+</div>
+
+<div id="comments" class="CommentsClosed" style="width: 500px;position: fixed; left: 50px; height: 510px; background-color: rgb(25, 25, 25);overflow: auto; transition: 0.3s;z-index: 12;">
   <center>
     <button onclick="document.querySelector('#comments').className = 'CommentsClosed'; document.querySelector('.posts').style.filter = 'none';" style="width: 400px; height: 4px;background-color: rgb(90, 25, 25);cursor: pointer;"></button>
     <input id="commentInput" style="border-top-right-radius: 0;border-bottom-right-radius: 0; height: 40px;width: 390px;position: relative;top: -5px;" placeholder="Введите текст">
@@ -34,19 +42,50 @@
   </center>
 </div>
 
+<div id="changeUsernameMenu" class="closedMenu">
+  <button onclick="document.querySelector('#settings').style.filter = 'blur(0px)';document.querySelector('#changeUsernameMenu').classList.toggle('openMenu'); document.querySelector('#changeUsernameMenu').classList.toggle('closedMenu');" style="width: 400px; height: 4px;background-color: rgb(90, 25, 25);cursor: pointer;"></button>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,1a11,11,0,0,0,0,22,1,1,0,0,0,0-2,9,9,0,1,1,9-9v2.857a1.857,1.857,0,0,1-3.714,0V7.714a1,1,0,1,0-2,0v.179A5.234,5.234,0,0,0,12,6.714a5.286,5.286,0,1,0,3.465,9.245A3.847,3.847,0,0,0,23,14.857V12A11.013,11.013,0,0,0,12,1Zm0,14.286A3.286,3.286,0,1,1,15.286,12,3.29,3.29,0,0,1,12,15.286Z"></path></svg>
+  <p>Сменить имя можно сколько угодно раз, но если его займёт кто-то другой вернуть уже не получиться.</p>
+  <input type="text" id="username" placeholder="Введите текст"><button onclick="changeUsername()">Изменить</button>
+</div>
+
+<div id="changeMailMenu" class="closedMenu">
+  <button onclick="document.querySelector('#settings').style.filter = 'blur(0px)';document.querySelector('#changeMailMenu').classList.toggle('openMenu'); document.querySelector('#changeMailMenu').classList.toggle('closedMenu');" style="width: 400px; height: 4px;background-color: rgb(90, 25, 25);cursor: pointer;"></button>
+  <img src="assets/ChangeEmail.png">
+  <input type="text" id="email" placeholder="Введите новую эл. почту"><button onclick="changeMail()">Изменить</button>
+</div>
+
+<div id="changePassMenu" class="closedMenu">
+  <button onclick="document.querySelector('#settings').style.filter = 'blur(0px)';document.querySelector('#changePassMenu').classList.toggle('openMenu'); document.querySelector('#changePassMenu').classList.toggle('closedMenu');" style="width: 400px; height: 4px;background-color: rgb(90, 25, 25);cursor: pointer;"></button>
+  <img src="assets/ChangePass.png">
+  <p>Запомните или запишите пароль, если вы его забудете, вы не сможете войти в аккаунт.</p>
+  <input type="password" id="oldPassword" placeholder="Введите старый пароль">
+  <input type="password" id="newPassword" autocomplete="off" placeholder="Введите новый пароль" onclick="changePass()"><button onclick="changePass()">Изменить</button>
+</div>
+
 <div id="settings" class="settingsClosed" style="width: 660px;position: fixed; height: 757px; background-color: rgb(25, 25, 25);overflow: auto; transition: 0.3s;z-index: 10;">
   <center>
-    <button onclick="document.querySelector('#settings').className = 'settingsClosed'" style="width: 400px; height: 4px;background-color: rgb(90, 25, 25);cursor: pointer;"></button>
-    <img id="cover" onclick="send('cover')" style="height: 150px;width: 480px; border-radius: 10px;position: relative;left: 67.5px;" ondragover="event.preventDefault();" ondrop="uploadCover(event)">
-    <img onclick="send('avatar')" id="avatar" style="height: 100px;width: 100px; border-radius: 50%;top: 55px;position: relative;border: 10px solid rgb(25, 25, 25);right: 240px;background-color: rgb(25, 25, 25);" ondragover="event.preventDefault();" ondrop="uploadAvatar(event)">
+    <button onclick="document.querySelector('#settings').className = 'settingsClosed'; document.querySelector('.posts').style.filter = 'blur(0px)';" style="width: 400px; height: 4px;background-color: rgb(90, 25, 25);cursor: pointer;"></button>
+    <img id="cover" onclick="upload('cover')" style="height: 150px;width: 480px; border-radius: 10px;position: relative;left: 67.5px;" ondragover="event.preventDefault();" ondrop="uploadCover(event)">
+    <img onclick="upload('avatar')" id="avatar" style="height: 100px;width: 100px; border-radius: 50%;top: 55px;position: relative;border: 10px solid rgb(25, 25, 25);right: 240px;background-color: rgb(25, 25, 25);" ondragover="event.preventDefault();" ondrop="uploadAvatar(event)">
     <input type="file" id="fileInput" style="display: none;">
-    <button id="ChangeUsername" style="width: 625px; margin-right: 20px; top: 50px; position: relative;text-align: left;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-at-sign"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></svg> <h2>Сменить имя пользователя</h2> <p>Error</p></button>
-    <button id="ChangeMail" style="width: 625px; margin-right: 20px; position: relative;text-align: left;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> <h2>Сменить почту</h2> <p>Error</p></button>
-    <button id="ChangePassword" style="width: 625px; margin-right: 20px; top: -50px; position: relative;text-align: left;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-key-round"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg> <h2>Сменить пароль</h2></button>
-    <button id="Sessions" style="width: 625px; margin-right: 20px; top: -70px; position: relative;text-align: left;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-monitor-smartphone"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"/><path d="M10 19v-3.96 3.15"/><path d="M7 19h5"/><rect width="6" height="10" x="16" y="12" rx="2"/></svg> <h2>Сессии</h2> <p>Error</p></button>
+    <button id="ChangeUsername" onclick="document.querySelector('#changeUsernameMenu').classList.toggle('openMenu'); document.querySelector('#changeUsernameMenu').classList.toggle('closedMenu'); document.querySelector('#settings').style.filter = 'blur(10px)';" style="width: 625px; margin-right: 20px; top: 50px; position: relative;text-align: left;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-at-sign"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></svg> <h2>Сменить имя пользователя</h2> <p>Error</p></button>
+    <button id="ChangeMail" onclick="document.querySelector('#changeMailMenu').classList.toggle('openMenu'); document.querySelector('#changeMailMenu').classList.toggle('closedMenu'); document.querySelector('#settings').style.filter = 'blur(10px)';" style="width: 625px; margin-right: 20px; position: relative;text-align: left;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> <h2>Сменить почту</h2> <p>Error</p></button>
+    <button id="ChangePassword" onclick="document.querySelector('#changePassMenu').classList.toggle('openMenu'); document.querySelector('#changePassMenu').classList.toggle('closedMenu'); document.querySelector('#settings').style.filter = 'blur(10px)';" style="width: 625px; margin-right: 20px; top: -50px; position: relative;text-align: left;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-key-round"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg> <h2>Сменить пароль</h2></button>
+    <button id="Sessions" onclick="document.querySelector('#settings').querySelector('#session-menu').classList.toggle('active'); document.querySelector('#settings').querySelector('#session-menu').classList.toggle('closed');" style="width: 625px; margin-right: 20px; top: -70px; position: relative;text-align: left;"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-monitor-smartphone"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"/><path d="M10 19v-3.96 3.15"/><path d="M7 19h5"/><rect width="6" height="10" x="16" y="12" rx="2"/></svg> <h2>Сессии</h2> <p>Error</p></button>
+    <div id="session-menu" class="closed">
+      <div id="currentSession">
+          <p id="Text">Текущая сессия</p>
+          <div class="content">
+              <img src="favicon.ico">
+              <p id="Device">{{ Device }}</p>
+              <p id="DeviceDescription">{{ DeviceDescription }}</p>
+          </div>
+      </div>
+    </div>
     
-    <div style="position: relative; top: -110px;">
-      <button style="width: 625px; margin-right: 20px;text-align: left;" onclick="document.querySelector('#settings').querySelector('#customTheme').click(); ">Загрузить свою тему</button>
+    <div style="position: relative; top: -125px;">
+      <button style="width: 625px; margin-right: 20px;text-align: left;margin-top: 20px;" onclick="document.querySelector('#settings').querySelector('#customTheme').click(); ">Загрузить свою тему</button>
       <select onchange="change(event)" id="ThemesSelector" style="height: 30px;font-size: 14px;position: relative;left: 180px;top: -40px; border-radius: 10px;">
         <option value="dark">Тёмная default</option>
         <option value="white">Светлая default</option>
@@ -57,10 +96,13 @@
     <div id="offline-mode" class="closed">
       <button id="saving-music" onclick='eel.setOffline("music-save", false)(function () {chtotoload()})' class="notda">Сохранять музыку</button>
       <button id="saving-last-posts" onclick='eel.setOffline("last-posts-save", false)(function () {chtotoload()})' class="notda">Сохранять последние посты</button>
-      <button id="saving-photos" onclick='eel.setOffline("my-profile-save", false)(function () {chtotoload()})' class="notda">Сохранять сессии</button>
-      <button id="saving-my-profile" onclick='eel.setOffline("sessions-save", false)(function () {chtotoload()})' class="notda">Сохранять ваш профиль</button>
+      <button id="saving-my-profile" onclick='eel.setOffline("sessions-save", false)(function () {chtotoload()})' class="notda">Сохранять сессии</button>
+      <button id="saving-photos" onclick='eel.setOffline("my-profile-save", false)(function () {chtotoload()})' class="notda">Сохранять ваш профиль</button>
     </div>
   </center>
+</div>
+
+<div id="messager" class="messagerClosed" style="width: 660px;position: fixed; height: 757px; background-color: rgb(25, 25, 25);overflow: auto; transition: 0.3s;z-index: 10;display: none;">
 </div>
 
 <div id="profile" class="profileClosed" style="width: 500px;position: fixed; left: 50px; height: 745px; background-color: rgb(25, 25, 25);overflow: auto; transition: 0.3s;z-index: 10;">
@@ -82,12 +124,13 @@
 <div id="musicPlayer" style="display: none; top: 130px;left: 60px;height: 70px;width: 500px;z-index: 10;position: fixed;background-color: rgb(25, 25, 25);border-radius: 10px;">
   <audio id="0"></audio>
   <div style="display: flex; align-items: center; gap: 10px; border-radius: 5px;">
-    <img src="noMusicCover.jpg" style="width: 50px; height: 50px; border-radius: 5px;margin-top: 10px;margin-left: 10px;margin-bottom: 12px;">
+    <img src="/assets/noMusicCover.jpg" style="width: 50px; height: 50px; border-radius: 5px;margin-top: 10px;margin-left: 10px;margin-bottom: 12px;">
     <div style="display: flex; flex-direction: column; flex-grow: 1;">
-      <p style="margin: 0; font-size: 16px;color: rgb(220, 220, 220);">Название - Автор</p>
+      <p style="margin: 0; font-size: 16px;color: rgb(220, 220, 220);">Название</p>
+      <p id="Author" style="position: absolute;top: 30px;margin: 0; font-size: 16px;color: rgba(220, 220, 220, 0.404);">Автор</p>
       <div>
-        <input type="range" style="width: 76%; margin-top: 10px;height: 4px;" value="0" onchange="document.querySelector('audio').currentTime = this.value">
-        <button onclick='if (document.querySelector("audio").paused) {document.querySelector("audio").play(); this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pause"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></svg>`} else {document.querySelector("audio").pause(); this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play"><polygon points="6 3 20 12 6 21 6 3"/></svg>`}' style="background-color: transparent;border: none;color: white;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pause"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></svg></button>
+        <input type="range" style="width: 76%; margin-top: 10px;height: 4px;" value="0" onchange="eel.sync('AudioChangeTime', this.value, navigator.userAgent)()">
+        <button onclick='eel.sync("AudioActionPause", navigator.userAgent)' style="background-color: transparent;border: none;color: white;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pause"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></svg></button>
         <button id="like" style="background-color: transparent;border: none;color: white;" onclick="if(this.querySelector('svg').getAttribute('fill') == 'none') {this.querySelector('svg').setAttribute('fill', 'white'); eel.like(document.querySelector('audio').id)()} else {this.querySelector('svg').setAttribute('fill', 'none'); eel.like(document.querySelector('audio').id)()}; get_FAVORITES();"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></button>
       </div>
     </div>
@@ -95,14 +138,24 @@
 </div>
 
 <div id="music" class="musicClosed" style="width: 500px;position: fixed; left: 50px; height: 600px; background-color: rgb(25, 25, 25);overflow: none;overflow-y: scroll; transition: 0.3s;">
+  <div id="playlistSelector" class="non-visible-anim-closed">
+    <div id="creator">
+      <input type="text" placeholder="Название нового плейлиста">
+      <button onclick="createPlaylist(this.parentNode)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+      </button>
+    </div>
+  </div>
   <center>
     <button onclick="document.querySelector('#music').className = 'musicClosed';document.querySelector('#musicPlayer').style.display = 'none'; document.querySelector('.posts').style.filter = 'none';" style="width: 400px; height: 4px;background-color: rgb(90, 25, 25);cursor: pointer;"></button>
+
     <h2 style="margin-left: 25px; text-align: left;">Любимые</h2>
     <div id="favorite" style="display: inline-flex;overflow-x: auto;overflow-y: none;width: 480px;"></div>
     <h2 style="margin-left: 25px; text-align: left;">Новые</h2>
     <div id="new" style="display: inline-flex;overflow-x: scroll;overflow-y: none;width: 470px;"></div>
     <h2 style="margin-left: 25px; text-align: left;">Случайные</h2>
     <div id="random" style="display: inline-flex;overflow-x: scroll;overflow-y: none;width: 470px;"></div>
+    <div class="playlists"></div>
   </center>
 </div>
 
@@ -136,7 +189,7 @@
       <br>
       Главная
     </button>
-    <button onclick="window.location.href = '/home.html'">
+    <button onclick="window.location.href = '/home.html'"><div style="width: 15px;height: 13px;border-radius: 20px;background-color: rgb(69 24 80);color: white;position: absolute;left: 280px;font-size: 10px;padding-top: 2px;opacity: 0.7;">1</div>
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
       <br>
       Месенджер
@@ -146,7 +199,7 @@
       <br>
       Музыка
     </button>
-    <button onclick="document.querySelector('#settings').className = 'settings';">
+    <button onclick="document.querySelector('.posts').style.filter = 'blur(10px)';document.querySelector('#settings').className = 'settings';">
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
       <br>
       Настройки

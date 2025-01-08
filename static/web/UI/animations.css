@@ -1,0 +1,23 @@
+.non-visible-anim-opened {
+    margin-top: 0px;
+    opacity: 1;
+    transition: 0.3s;
+}
+
+.non-visible-anim-closed {
+    margin-top: 20px;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+#searcher {
+    outline: 2px solid transparent;
+    outline-offset: 3px;
+    transition: outline-color 0.3s;
+}
+
+#searcher:focus {
+    outline: 2px solid var(--input-outline-color);
+    outline-offset: 3px;
+    transition: outline-color 0.3s;
+}

@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html>
+<script src="/eel.js"></script>
+<script>
+
+const url = new URL(window.location.href)
+var userAgent = url.searchParams.get("UserAgent")
+var email = url.searchParams.get("Email")
+var password = url.searchParams.get("Password")
+
+eel.QR_Auth(userAgent, email, password)()
+
+</script>
+</html>

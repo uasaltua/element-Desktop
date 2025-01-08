@@ -1,36 +1,44 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Авторизация - Element Desktop</title>
-    <link rel="stylesheet" href="/UI/home.css" />
+    <title>Element Desktop</title>
     <link rel="stylesheet" href="/UI/auth.css" />
 </head>
 <body>
 
-<div class="authorization">
-    <h2>Авторизация</h2>
-        <div class="username">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user">
-                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
-                <circle cx="12" cy="7" r="4"/>
-            </svg>
-            <input type="mail" placeholder="Почта" id="mail">
-        </div>
+<div class="selector">
+  <img class="logo" src="assets/logo256.png">
+  <h2>Добро пожаловать!</h2>
+  <p>Приветствуем вас в клиенте для Element<br>Спасибо за использование❤️</p>
+  <div style="margin-bottom: 64.9%;"></div>
+  <button style="width: 98.3%;" onclick="document.querySelector('.authorization').style.left = '70px';document.querySelector('.selector').style.filter = 'blur(40px)'">Авторизация</button>
+  <button style="width: 98.3%;" onclick="">Регистрация</button>
+</div>
 
-        <div class="password">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-key-round">
-                <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/>
-                <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/>
-            </svg>
-            <input type="password" placeholder="Пароль" id="password">
-        </div>
-        <button class="submit" onclick="auth()">Войти</button>
+<div class="authorization" style="position: fixed;left: 650px;top: 0;margin-top: 250px;">
+  <h2>Авторизация</h2>
+  <div class="username">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user">
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+      <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+    <input type="mail" placeholder="Почта" id="mail">
+  </div>
+
+  <div class="password">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-key-round">
+      <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"></path>
+      <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
+    </svg>
+    <input type="password" placeholder="Пароль" id="password">
+  </div>
+  <button class="submit" onclick="auth()">Войти</button>
+  <button class="submit" onclick="document.querySelector('.selector').style.filter = 'none'; document.querySelector('.authorization').style.left = '650px';">Назад</button>
 </div>
 
 <script src="/eel.js"></script>
 <script>
     var container = document.querySelector(".authorization")
-    container.style.marginTop = container.clientHeight + "px"
     function auth() {
       eel.auth(
         document.getElementById('mail').value,

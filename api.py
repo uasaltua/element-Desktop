@@ -30,7 +30,7 @@ class element:
 
     def auth(email, password):
 
-        req = requests.post(f'https://api.elemsocial.com/auth/login', headers={'User-Agent':'ElementAPI'}, data={'email': email, 'password': password, "device_type": "4", "device": "element Desktop 1.0"})
+        req = requests.post(f'https://api.elemsocial.com/auth/login', headers={'User-Agent':'ElementAPI'}, data={'email': email, 'password': password, "device_type": "4", "device": "Element Desktop"})
 
 
 
@@ -189,11 +189,7 @@ class element:
             allnotifys = requests.post(f"https://elemsocial.com/System/API/Notifications.php?F=GET", data={"StartIndex": "0"}, headers={"S-KEY": S_KEY, 'User-Agent':'ElementAPI'}).json()
 
             for i in range(0, int(req.content.decode())):
-
-                
-
                 respond = ""
-
                 if allnotifys[i].get("Action") == "ProfileSubscribe":
 
                     respond = "Подписывается на вас"
